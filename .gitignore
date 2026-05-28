@@ -1,0 +1,10 @@
+.env
+*.key
+*.pem
+*credentials*
+credentials.json
+*.log
+logs/
+.DS_Store
+.vscode/
+.idea/
