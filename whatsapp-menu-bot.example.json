@@ -1,0 +1,1524 @@
+{
+  "name": "TechExon WhatsApp AI Lead Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "waha-incoming",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -2448,
+        32
+      ],
+      "id": "501d91a5-b961-4b89-aa4a-ef49d760bb1e",
+      "name": "Webhook",
+      "webhookId": "d82f6dcc-60ee-4029-9109-686d208e3eeb"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Prepare Bot Data').item.json.incoming_message }}",
+                    "rightValue": "1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "db035f88-638e-47a5-8e16-2087fe0dd48f"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "648eedde-ff12-43b5-b18e-9ff0aa6a796d",
+                    "leftValue": "={{ $('Prepare Bot Data').item.json.incoming_message }}",
+                    "rightValue": "2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "111114a0-e262-4b83-909f-ab2a44f187bc",
+                    "leftValue": "={{ $('Prepare Bot Data').item.json.incoming_message }}",
+                    "rightValue": "3",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "d68a6aff-1d3f-472d-b253-1f948e8812da",
+                    "leftValue": "={{ $('Prepare Bot Data').item.json.incoming_message }}",
+                    "rightValue": "4",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a33bad1e-eb4d-402a-ab42-bb26f78e1818",
+                    "leftValue": "={{ $('Prepare Bot Data').item.json.incoming_message }}",
+                    "rightValue": "5",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -736,
+        720
+      ],
+      "id": "99a4d630-c8ca-4ce3-aa78-7af9b9b955df",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "url": "={{ \"http://YOUR_SERVER_IP:3010/api/default/lids/\" + encodeURIComponent($json.body.payload.from) }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Api-Key ",
+              "value": "YOUR_WAHA_API_KEY"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -2592,
+        464
+      ],
+      "id": "80820fc0-1171-4b09-99a4-6a09df11c0c7",
+      "name": "lib to cn"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://YOUR_SERVER_IP:3010/api/sendText",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type ",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Api-Key ",
+              "value": "YOUR_WAHA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"session\": \"default\",\n  \"chatId\": \"{{ $json.chat_id }}\",\n  \"text\": \"🌐 *TechExon Website Development*\\n\\nGreat choice — we build modern business websites, landing pages, booking sites, and custom web systems.\\n\\nPlease send your details in this format:\\n\\n🏢 Business Name:\\n🖥️ Website Type:\\n🌍 Do you have a domain:\\n📄 Pages needed:\\n🎯 Reference Website:\\n\\nExample:\\n🏢 Business Name: XYZ Company\\n🖥️ Website Type: Business website\\n🌍 Do you have a domain: Yes\\n📄 Pages needed: Home, Services, About, Contact\\n🎯 Reference Website: example.com\\n\\nType *menu* anytime to go back.\\nOr type *human* if you want to explain directly to our team.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        784,
+        544
+      ],
+      "id": "c0d24d47-a149-4713-a553-e1f524fafd5f",
+      "name": "Web Dev"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://YOUR_SERVER_IP:3010/api/sendText",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": " YOUR_WAHA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"session\": \"default\",\n  \"chatId\": \"{{ $json.chat_id }}\",\n  \"text\": \"🤖 *TechExon AI Automation*\\n\\nGreat choice — we can help you automate repetitive business tasks and save time.\\n\\nPlease send your details in this format:\\n\\n🏢 Business Name:\\n⚙️ What process do you want to automate:\\n🧰 Current tool/system you use:\\n📍 Where should data be saved:\\n🔗 Need WhatsApp/Email/CRM integration:\\n\\nExample:\\n🏢 Business Name: XYZ Company\\n⚙️ What process do you want to automate: lead replies and follow-ups\\n🧰 Current tool/system you use: WhatsApp and Google Sheets\\n📍 Where should data be saved: CRM / Google Sheets\\n🔗 Need WhatsApp/Email/CRM integration: Yes\\n\\nType *menu* anytime to go back.\\nOr type *human* if you want to explain directly to our team.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        768,
+        272
+      ],
+      "id": "b55d2a1b-bbde-483b-b57e-888876a41f66",
+      "name": "Ai Automation"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://YOUR_SERVER_IP:3010/api/sendText",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": "YOUR_WAHA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"session\": \"default\",\n  \"chatId\": \"{{ $json.chat_id }}\",\n  \"text\": \"📊 *TechExon CRM / Dashboard Systems*\\n\\nGreat choice — we can build dashboards to manage your leads, clients, payments, bookings, tasks, and reports in one place.\\n\\nPlease send your details in this format:\\n\\n🏢 Business Name:\\n📌 Dashboard Type:\\n📈 What should it track:\\n👥 Who will use it:\\n🔔 Need WhatsApp/Email automation:\\n\\nExample:\\n🏢 Business Name: XYZ Company\\n📌 Dashboard Type: Sales & Lead Management Dashboard\\n📈 What should it track: leads, clients, payments, follow-ups, team tasks\\n👥 Who will use it: admin and sales team\\n🔔 Need WhatsApp/Email automation: Yes\\n\\nType *menu* anytime to go back.\\nOr type *human* if you want to explain directly to our team.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        752,
+        800
+      ],
+      "id": "61c39d53-0530-4053-8b08-b4b0f8001e0a",
+      "name": "Send CRM Reply"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://YOUR_SERVER_IP:3010/api/sendText",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": "YOUR_WAHA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"session\": \"default\",\n  \"chatId\": \"{{ $json.chat_id }}\",\n  \"text\": \"💬 *TechExon WhatsApp Bot Automation*\\n\\nGreat choice — we can build WhatsApp bots for lead collection, appointments, support, menus, and CRM automation.\\n\\nPlease send your details in this format:\\n\\n🏢 Business Name:\\n🎯 Bot Purpose:\\n📝 What should the bot collect:\\n📍 Where should leads be saved:\\n👤 Need human handoff:\\n\\nExample:\\n🏢 Business Name: XYZ Company\\n🎯 Bot Purpose: collect customer inquiries\\n📝 What should the bot collect: name, phone, service needed, message\\n📍 Where should leads be saved: Google Sheets / CRM\\n👤 Need human handoff: Yes\\n\\nType *menu* anytime to go back.\\nOr type *human* if you want to explain directly to our team.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        704,
+        1040
+      ],
+      "id": "ef855e0c-9aaa-45a9-a18a-01a46cb1064c",
+      "name": "For BOts"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://YOUR_SERVER_IP:3010/api/sendText",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": "YOUR_WAHA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"session\": \"default\",\n  \"chatId\": \"{{ $json.chat_id }}\",\n  \"text\": \"🛡️ *TechExon Cybersecurity & Audit Reports*\\n\\nGreat choice — we can help check your website/domain for security risks and provide a clean audit report.\\n\\nPlease send your details in this format:\\n\\n🏢 Business Name:\\n🌍 Website/Domain:\\n🔍 What do you want checked:\\n✅ Is this your own business:\\n⚠️ Any specific concern:\\n\\nExample:\\n🏢 Business Name: XYZ Company\\n🌍 Website/Domain: example.com\\n🔍 What do you want checked: website security, email security, exposed files, vulnerabilities\\n✅ Is this your own business: Yes\\n⚠️ Any specific concern: I want to know if my website or company systems are exposed\\n\\nType *menu* anytime to go back.\\nOr type *human* if you want to explain directly to our team.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        592,
+        1264
+      ],
+      "id": "6518288e-0837-4871-8f00-64d7ba5f8d1f",
+      "name": "Cybersecurity & Audit"
+    },
+    {
+      "parameters": {
+        "collection": "sessions",
+        "options": {
+          "limit": 1
+        },
+        "query": "={\n  \"phone\": \"{{ $json.phone }}\"\n}"
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        -2144,
+        480
+      ],
+      "id": "f9f6895b-d603-46ce-9ed5-9afccb056272",
+      "name": "Find Session",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mongoDb": {
+          "id": "YOUR_N8N_MONGODB_CREDENTIAL_ID",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0d17f6aa-310f-4fba-85c6-aab47e0adf76",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "active",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1888,
+        1040
+      ],
+      "id": "e9988036-671d-4f37-ae52-62f542f683a8",
+      "name": "Is Active Session?"
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "collection": "sessions",
+        "fields": "=phone,chat_id,current_flow,current_step,selected_service,status,last_message,created_at,updated_at",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        128
+      ],
+      "id": "a17896ef-390e-4b63-8ae1-ecd090f9cb7f",
+      "name": "Save AI Session",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mongoDb": {
+          "id": "YOUR_N8N_MONGODB_CREDENTIAL_ID",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const webhookBody = $('Webhook').item.json.body || {};\n\nconst incoming =\n  webhookBody.payload?.body ||\n  webhookBody.body ||\n  webhookBody.text ||\n  webhookBody.message?.body ||\n  \"\";\n\nconst originalMessage = incoming.toString().trim();\n\nreturn [\n  {\n    json: {\n      phone: $json.pn,\n      chat_id: $json.pn,\n      lid: $json.lid,\n\n      // for bot commands and switch logic\n      incoming_message: originalMessage.toLowerCase(),\n\n      // for saving real client details\n      original_message: originalMessage,\n\n      created_at: new Date().toISOString(),\n      updated_at: new Date().toISOString()\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2048,
+        112
+      ],
+      "id": "7111d3bc-ca90-43ae-ac1f-a90cb3d24b90",
+      "name": "Prepare Bot Data"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      phone: $('Prepare Bot Data').item.json.phone,\n      chat_id: $('Prepare Bot Data').item.json.chat_id,\n      current_flow: \"ai_automation\",\n      current_step: \"waiting_for_ai_details\",\n      selected_service: \"AI Automation\",\n      status: \"active\",\n      last_message: \"1\",\n      created_at: new Date().toISOString(),\n      updated_at: new Date().toISOString()\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "067779b7-0663-4b84-9493-2147afd54bb9",
+      "name": "Build AI Session Data"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://YOUR_SERVER_IP:3010/api/sendText",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": " YOUR_WAHA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"session\": \"default\",\n  \"chatId\": \"{{ $('Prepare Bot Data').item.json.chat_id }}\",\n  \"text\": \"You are already completing an active TechExon request.\\n\\nPlease send the required details for your selected service.\\n\\nType *menu* or *back* anytime to return to the main menu.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1152,
+        64
+      ],
+      "id": "89aff191-ac1c-49bb-ba65-328a9581a5f2",
+      "name": "Active Session Warning1"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      phone: $('Prepare Bot Data').item.json.phone,\n      chat_id: $('Prepare Bot Data').item.json.chat_id,\n      current_flow: \"website_development\",\n      current_step: \"waiting_for_website_details\",\n      selected_service: \"Website Development\",\n      status: \"active\",\n      last_message: \"2\",\n      created_at: new Date().toISOString(),\n      updated_at: new Date().toISOString()\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -16,
+        240
+      ],
+      "id": "7b74b77c-dd6f-4ee9-9408-f7906ed4b472",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "collection": "sessions",
+        "fields": "phone,chat_id,current_flow,current_step,selected_service,status,last_message,created_at,updated_at",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        384
+      ],
+      "id": "437e1d37-44fb-4473-8368-392e5a6fc254",
+      "name": "Save Website Session",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mongoDb": {
+          "id": "YOUR_N8N_MONGODB_CREDENTIAL_ID",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      phone: $('Prepare Bot Data').item.json.phone,\n      chat_id: $('Prepare Bot Data').item.json.chat_id,\n      current_flow: \"crm_dashboard\",\n      current_step: \"waiting_for_crm_details\",\n      selected_service: \"CRM / Dashboard\",\n      status: \"active\",\n      last_message: \"3\",\n      created_at: new Date().toISOString(),\n      updated_at: new Date().toISOString()\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -48,
+        464
+      ],
+      "id": "f015251c-b044-48c3-acfa-e1bb83fe04f8",
+      "name": "Build CRM Session Data"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      phone: $('Prepare Bot Data').item.json.phone,\n      chat_id: $('Prepare Bot Data').item.json.chat_id,\n      current_flow: \"whatsapp_bot\",\n      current_step: \"waiting_for_whatsapp_bot_details\",\n      selected_service: \"WhatsApp Bot Automation\",\n      status: \"active\",\n      last_message: \"4\",\n      created_at: new Date().toISOString(),\n      updated_at: new Date().toISOString()\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -80,
+        672
+      ],
+      "id": "3ad795ce-4adb-4d50-994d-569ea9108019",
+      "name": "Build WhatsApp Bot Session Data"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      phone: $('Prepare Bot Data').item.json.phone,\n      chat_id: $('Prepare Bot Data').item.json.chat_id,\n      current_flow: \"cybersecurity_audit\",\n      current_step: \"waiting_for_audit_details\",\n      selected_service: \"Cybersecurity / Audit Reports\",\n      status: \"active\",\n      last_message: \"5\",\n      created_at: new Date().toISOString(),\n      updated_at: new Date().toISOString()\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        880
+      ],
+      "id": "03de6dfa-3838-42f7-ba82-77291090af5b",
+      "name": "Build Cybersecurity Session Data"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "205607c5-325f-4da2-83bc-dfb1bc231fc8",
+              "leftValue": "={{ [\"menu\", \"back\", \"cancel\", \"restart\", \"start\", \"hi\", \"hello\"].includes($('Prepare Bot Data').item.json.incoming_message) }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2096,
+        1248
+      ],
+      "id": "ea4d2b01-f25a-40b8-a783-c3979eac2c68",
+      "name": "Is Menu Command?"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "collection": "sessions",
+        "query": "={\n  \"phone\": \"{{ $('Prepare Bot Data').item.json.phone }}\"\n}"
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        -1664,
+        1280
+      ],
+      "id": "20022c03-2785-4e2b-a5f4-6c72cf15f9ff",
+      "name": "Clear Session",
+      "credentials": {
+        "mongoDb": {
+          "id": "YOUR_N8N_MONGODB_CREDENTIAL_ID",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://YOUR_SERVER_IP:3010/api/sendText",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": "YOUR_WAHA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"session\": \"default\",\n  \"chatId\": \"{{ $('Prepare Bot Data').item.json.chat_id }}\",\n  \"text\": \"👋 Welcome to *TechExon*\\n\\nWe build smart digital systems for businesses — websites, automations, dashboards, WhatsApp bots, and security audit reports.\\n\\nHow can we help you today?\\n\\n1️⃣ *AI Automation* 🤖\\nAutomate replies, follow-ups, data entry, lead handling, and daily business workflows.\\n\\n2️⃣ *Website Development* 🌐\\nModern business websites, landing pages, booking websites, portfolios, and custom web apps.\\n\\n3️⃣ *CRM / Dashboard Systems* 📊\\nTrack leads, clients, payments, follow-ups, bookings, team tasks, and reports in one place.\\n\\n4️⃣ *WhatsApp Bot Automation* 💬\\nCreate WhatsApp menu bots, lead collection bots, appointment bots, support bots, and CRM integrations.\\n\\n5️⃣ *Cybersecurity / Audit Reports* 🛡️\\nWebsite/domain security checks, email security review, exposed data checks, vulnerability reports, and business audit reports.\\n\\nReply with a number from *1 to 5*.\\n\\nYou can type *menu* anytime to restart.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1232,
+        1040
+      ],
+      "id": "ca57b511-308b-46d6-b445-2ad4df8de888",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "const session = $json;\nconst botData = $('Prepare Bot Data').item.json;\n\nreturn [\n  {\n    json: {\n      phone: botData.phone,\n      chat_id: botData.chat_id,\n      selected_service: session.selected_service || \"Unknown\",\n      current_flow: session.current_flow || \"unknown\",\n      requirements: botData.original_message,\n      raw_message: botData.original_message,\n\n      status: \"new\",\n      lead_stage: \"new\",\n      source: \"whatsapp\",\n      assigned_to: \"TechExon Admin\",\n      notes: \"\",\n      follow_up_required: true,\n\n      created_at: new Date().toISOString(),\n      updated_at: new Date().toISOString()\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -704,
+        1472
+      ],
+      "id": "b93b072d-e5b5-4226-973b-07ef9fe81bfd",
+      "name": "Build Lead Data"
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "collection": "leads",
+        "fields": "phone,chat_id,selected_service,current_flow,requirements,raw_message,status,lead_stage,source,assigned_to,notes,follow_up_required,business_name,business_type,ai_selected_service,requirement_summary,main_problem,suggested_solution,budget_signal,urgency,missing_fields,lead_quality,follow_up_question,ai_processed,created_at,updated_at",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        -1040,
+        432
+      ],
+      "id": "f5ff1fcf-bca5-412c-bd44-b6bb4d0af0ec",
+      "name": "Save Lead",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mongoDb": {
+          "id": "YOUR_N8N_MONGODB_CREDENTIAL_ID",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "collection": "sessions",
+        "fields": "phone,chat_id,current_flow,current_step,selected_service,status,last_message,created_at,updated_at",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        320,
+        624
+      ],
+      "id": "046151d7-d896-40e1-bd01-b3932f6b4ede",
+      "name": "save CRM sessions",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mongoDb": {
+          "id": "YOUR_N8N_MONGODB_CREDENTIAL_ID",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "collection": "sessions",
+        "fields": "phone,chat_id,current_flow,current_step,selected_service,status,last_message,created_at,updated_at",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        832
+      ],
+      "id": "706d5105-c2c3-4096-9323-37588be908a8",
+      "name": "Save Bots Sessions",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mongoDb": {
+          "id": "YOUR_N8N_MONGODB_CREDENTIAL_ID",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "collection": "sessions",
+        "fields": "phone,chat_id,current_flow,current_step,selected_service,status,last_message,created_at,updated_at",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        160,
+        1056
+      ],
+      "id": "3b0f2347-14bc-4e9f-9617-ed00dbf1c68c",
+      "name": "Save CyberSe Sessions",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mongoDb": {
+          "id": "YOUR_N8N_MONGODB_CREDENTIAL_ID",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "collection": "sessions",
+        "query": "={\n  \"phone\": \"{{ $('Prepare Bot Data').item.json.phone }}\"\n}"
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        -592,
+        224
+      ],
+      "id": "ba11efd4-12b6-402f-a42d-a38b11cc8e39",
+      "name": "Delete Session After Lead",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mongoDb": {
+          "id": "YOUR_N8N_MONGODB_CREDENTIAL_ID",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://YOUR_SERVER_IP:3010/api/sendText",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": "YOUR_WAHA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"session\": \"default\",\n  \"chatId\": \"{{ $('Prepare Bot Data').item.json.chat_id }}\",\n  \"text\": \"✅ Thank you! Your *{{ $('Build Lead Data').item.json.selected_service }}* request has been received by *TechExon*.\\n\\nOur team will review your details and contact you shortly.\\n\\nType *menu* anytime to start a new request.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -384,
+        64
+      ],
+      "id": "1d8147a3-a01b-4036-a127-37d3eb213215",
+      "name": "Lead Confirmation Reply"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://YOUR_SERVER_IP:3010/api/sendText",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": "YOUR_WAHA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "session",
+              "value": "default"
+            },
+            {
+              "name": "chatId",
+              "value": "91ADMINNUMBER@c.us"
+            },
+            {
+              "name": "text",
+              "value": "=🚨 *New TechExon Lead*\n\n📌 *Service:* {{ $json.selected_service }}\n🏢 *Business:* {{ $json.business_name }}\n🏷️ *Business Type:* {{ $json.business_type }}\n📞 *Client Phone:* {{ $json.phone }}\n\n📝 *AI Summary:*\n{{ $json.requirement_summary }}\n\n⚠️ *Main Problem:*\n{{ $json.main_problem }}\n\n💡 *Suggested Solution:*\n{{ $json.suggested_solution }}\n\n🔥 *Urgency:* {{ $json.urgency }}\n⭐ *Lead Quality:* {{ $json.lead_quality }}\n\n❓ *Follow-up Question:*\n{{ $json.follow_up_question }}\n\n📍 *Source:* WhatsApp Bot"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -816,
+        336
+      ],
+      "id": "a830449f-45f1-47a9-8008-bf77e11c6961",
+      "name": "Notify Admin"
+    },
+    {
+      "parameters": {
+        "jsCode": "const original = $('Build Lead Data').item.json;\n\nlet aiText =\n  $json.choices?.[0]?.message?.content ||\n  $json.output ||\n  $json.text ||\n  $json.response ||\n  \"\";\n\nlet parsed = {};\n\ntry {\n  aiText = aiText\n    .replace(/```json/g, \"\")\n    .replace(/```/g, \"\")\n    .trim();\n\n  parsed = JSON.parse(aiText);\n} catch (error) {\n  parsed = {\n    business_name: \"Unknown\",\n    business_type: \"Unknown\",\n    selected_service: original.selected_service,\n    requirement_summary: original.requirements,\n    main_problem: \"Could not parse AI response\",\n    suggested_solution: \"Manual review required\",\n    budget_signal: \"unknown\",\n    urgency: \"unknown\",\n    missing_fields: [\"Manual review required\"],\n    lead_quality: \"medium\",\n    follow_up_question: \"Can you share a few more details about your requirement?\"\n  };\n}\n\nreturn [\n  {\n    json: {\n      ...original,\n\n      business_name: parsed.business_name || \"Unknown\",\n      business_type: parsed.business_type || \"Unknown\",\n      ai_selected_service: parsed.selected_service || original.selected_service,\n      requirement_summary: parsed.requirement_summary || original.requirements,\n      main_problem: parsed.main_problem || \"Unknown\",\n      suggested_solution: parsed.suggested_solution || \"Unknown\",\n      budget_signal: parsed.budget_signal || \"unknown\",\n      urgency: parsed.urgency || \"unknown\",\n      missing_fields: parsed.missing_fields || [],\n      lead_quality: parsed.lead_quality || \"medium\",\n      follow_up_question: parsed.follow_up_question || \"\",\n\n      ai_processed: true,\n      updated_at: new Date().toISOString()\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1248,
+        512
+      ],
+      "id": "b3bb747c-cbf2-41a5-9834-8a85a5265be8",
+      "name": "Merge AI Lead Data"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cerebras.ai/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": " application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_CEREBRAS_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.cerebras_body) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -1472,
+        672
+      ],
+      "id": "c92424d2-3473-4019-83ce-93e82002a073",
+      "name": "Cerebras Lead Parser"
+    },
+    {
+      "parameters": {
+        "jsCode": "const lead = $json;\n\nconst systemPrompt = `\nYou are a senior lead qualification assistant for TechExon.\n\nTechExon provides:\n- AI automation\n- Website development\n- CRM / dashboard systems\n- WhatsApp bot automation\n- Cybersecurity and audit reports\n\nYour job is to analyze WhatsApp lead messages and extract useful business and project details.\n\nImportant rules:\n- Return ONLY valid JSON.\n- Do not use markdown.\n- Do not explain anything outside JSON.\n- If a value is clearly mentioned, extract it.\n- If a value is clearly inferable, infer it carefully.\n- If information is missing, use \"Unknown\".\n- Do not invent fake company names, websites, phone numbers, budgets, or timelines.\n- Keep summaries short, professional, and useful for a sales/admin team.\n- Choose lead_quality as one of: low, medium, high.\n- Choose urgency as one of: low, medium, high, unknown.\n- Choose budget_signal as one of: unknown, low, medium, high.\n\nSpecial handling:\n- For website leads, identify website type, domain status, and reference site if mentioned.\n- For CRM/dashboard leads, identify the dashboard type and what the client wants to track.\n- For WhatsApp bot leads, identify bot purpose, lead capture target, and automation need.\n- For AI automation leads, identify the business process the client wants to automate.\n- For cybersecurity leads, identify the audit need, likely risk concern, and recommended next step.\n- For cybersecurity leads, always include authorization/domain confirmation in missing_fields or follow_up_question if not provided.\n`;\n\nconst userPrompt =\n  \"Selected service: \" + lead.selected_service + \"\\n\" +\n  \"Current flow: \" + lead.current_flow + \"\\n\" +\n  \"Client phone: \" + lead.phone + \"\\n\" +\n  \"Client message:\\n\" + lead.requirements + \"\\n\\n\" +\n\n  \"Analyze the client message and return this exact JSON structure:\\n\" +\n  \"{\\n\" +\n  \"  \\\"business_name\\\": \\\"Extract business/company name if mentioned, otherwise Unknown\\\",\\n\" +\n  \"  \\\"business_type\\\": \\\"Infer business type if possible, otherwise Unknown\\\",\\n\" +\n  \"  \\\"selected_service\\\": \\\"Use the selected service or a corrected matching TechExon service\\\",\\n\" +\n  \"  \\\"requirement_summary\\\": \\\"Short professional summary of what the client wants\\\",\\n\" +\n  \"  \\\"main_problem\\\": \\\"The main problem or need the client is trying to solve\\\",\\n\" +\n  \"  \\\"suggested_solution\\\": \\\"What TechExon should offer next\\\",\\n\" +\n  \"  \\\"budget_signal\\\": \\\"unknown, low, medium, or high\\\",\\n\" +\n  \"  \\\"urgency\\\": \\\"low, medium, high, or unknown\\\",\\n\" +\n  \"  \\\"missing_fields\\\": [\\\"List important missing details needed for follow-up\\\"],\\n\" +\n  \"  \\\"lead_quality\\\": \\\"low, medium, or high\\\",\\n\" +\n  \"  \\\"follow_up_question\\\": \\\"One best question TechExon should ask next\\\"\\n\" +\n  \"}\";\n\nreturn [\n  {\n    json: {\n      ...lead,\n      cerebras_body: {\n        model: \"llama3.1-8b\",\n        stream: false,\n        temperature: 0.2,\n        max_tokens: 700,\n        messages: [\n          {\n            role: \"system\",\n            content: systemPrompt.trim()\n          },\n          {\n            role: \"user\",\n            content: userPrompt\n          }\n        ]\n      }\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1680,
+        864
+      ],
+      "id": "1a25c81d-f8f2-4844-a95d-1e93e845f4a7",
+      "name": "Build Cerebras Body"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bc954474-0d08-4d84-b6a3-879936051911",
+              "name": "client_message",
+              "value": "={{ $('Webhook').item.json.body.payload.body }}",
+              "type": "string"
+            },
+            {
+              "id": "da1ef3f0-541c-4174-ab93-9c3b2d6c41d0",
+              "name": "client_phone",
+              "value": "={{ $('lib to cn').item.json.pn }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -496,
+        1072
+      ],
+      "id": "881a5943-271d-4268-b5c8-9bca93613156",
+      "name": "Prepare AI Input"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.freemodel.dev/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_AI_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"gpt-5.5\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are TechExon's WhatsApp lead qualification assistant. You are NOT a general chatbot. You must ONLY handle messages related to TechExon's services: AI Automation, Website Development, CRM/Dashboard Systems, WhatsApp Bot Automation, and Cybersecurity/Audit Reports. If the user asks anything unrelated such as geography, history, jokes, homework, random facts, coding help, personal questions, or general knowledge, do NOT answer the question. Politely redirect them back to TechExon's services. If the message is unrelated, set service as Out of Scope and lead_quality as Not a Lead. Keep replies short and WhatsApp-style. Do not mention that you are AI. Return only compact valid JSON.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": {{ JSON.stringify(\"Client message: \" + $('Prepare AI Input').item.json.client_message + \"\\nClient phone: \" + $('Prepare AI Input').item.json.client_phone + \"\\n\\nReturn only valid JSON with these exact keys:\\n{\\n  \\\"service\\\": \\\"AI Automation / Website Development / CRM Dashboard / WhatsApp Bot / Cybersecurity Audit / Unknown / Out of Scope\\\",\\n  \\\"business_type\\\": \\\"short guessed business type or Unknown\\\",\\n  \\\"requirement\\\": \\\"short summary of what client wants or why it is out of scope\\\",\\n  \\\"urgency\\\": \\\"Low / Medium / High / Unknown\\\",\\n  \\\"lead_quality\\\": \\\"Cold / Warm / Hot / Not a Lead\\\",\\n  \\\"client_reply\\\": \\\"short WhatsApp reply. If out of scope, do not answer the question; redirect to TechExon services.\\\",\\n  \\\"admin_summary\\\": \\\"short internal summary for TechExon\\\"\\n}\") }}\n    }\n  ],\n  \"temperature\": 0.2,\n  \"max_tokens\": 220\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -96,
+        1472
+      ],
+      "id": "b6a6ad0c-0bce-4f5f-8de7-629c3705e739",
+      "name": "AI Lead Brain"
+    },
+    {
+      "parameters": {
+        "jsCode": "let outer = $json;\n\n// In this case, AI Lead Brain returns everything inside \"data\" as text\nif (typeof $json.data === \"string\") {\n  try {\n    outer = JSON.parse($json.data);\n  } catch (e) {\n    outer = {};\n  }\n}\n\nconst raw =\n  outer.choices?.[0]?.message?.content ||\n  $json.choices?.[0]?.message?.content ||\n  \"\";\n\nif (!raw) {\n  return [{\n    json: {\n      service: \"Unknown\",\n      business_type: \"Unknown\",\n      requirement: \"Could not parse AI response\",\n      urgency: \"Unknown\",\n      lead_quality: \"Cold\",\n      client_reply: \"Thanks for reaching out to TechExon. Could you please share what service you need — website, automation, CRM, WhatsApp bot, or cybersecurity audit?\",\n      admin_summary: \"AI response was empty or not in expected format.\"\n    }\n  }];\n}\n\nlet parsed = {};\n\ntry {\n  parsed = JSON.parse(raw);\n} catch (e) {\n  const match = raw.match(/\\{[\\s\\S]*\\}/);\n  if (match) {\n    parsed = JSON.parse(match[0]);\n  }\n}\n\nreturn [{\n  json: {\n    service: parsed.service || \"Unknown\",\n    business_type: parsed.business_type || \"Unknown\",\n    requirement: parsed.requirement || \"Unknown\",\n    urgency: parsed.urgency || \"Unknown\",\n    lead_quality: parsed.lead_quality || \"Cold\",\n    client_reply: parsed.client_reply || \"Thanks for reaching out to TechExon. Could you please share a few more details about your requirement?\",\n    admin_summary: parsed.admin_summary || \"No admin summary generated.\"\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        272,
+        1552
+      ],
+      "id": "49853ab0-ea50-418d-827a-b410c4defce3",
+      "name": "Parse AI Result"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://YOUR_SERVER_IP:3010/api/sendText",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": "YOUR_WAHA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"session\": \"default\",\n  \"chatId\": \"{{ $('Prepare AI Input').item.json.client_phone }}\",\n  \"text\": \"{{ $('Parse AI Result').item.json.client_reply }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1072,
+        1088
+      ],
+      "id": "6272745d-a03c-474e-8f64-902bef49d43e",
+      "name": "Send AI Reply to Client"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f404d6e4-8394-46d0-a545-2f1f7a715ba8",
+              "leftValue": "={{ $('Prepare AI Input').item.json.client_message.toLowerCase().trim() }}",
+              "rightValue": "^(hi|hello|hey|menu|start|\\/start|help|options|services)$",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -496,
+        1344
+      ],
+      "id": "0c7315c5-d809-4d5a-b8b8-f2619b8bb0eb",
+      "name": "Is Greeting or Menu Request?"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://YOUR_SERVER_IP:3010/api/sendText",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": "YOUR_WAHA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"session\": \"default\",\n  \"chatId\": \"{{ $('Prepare AI Input').item.json.client_phone || $('lb to cn').item.json.pn }}\",\n  \"text\": \"👋 *Welcome to TechExon*\\n\\nWe help businesses with AI automation, websites, CRM dashboards, WhatsApp bots, and cybersecurity audits.\\n\\nPlease choose an option:\\n\\n1️⃣ AI Automation\\n2️⃣ Website Development\\n3️⃣ CRM / Dashboard System\\n4️⃣ WhatsApp Bot Automation\\n5️⃣ Cybersecurity / Audit Report\\n\\nYou can also type your requirement directly, for example:\\n_I need a website for my business_\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -144,
+        1136
+      ],
+      "id": "2531790c-0716-4e83-8bff-73deec62ad3e",
+      "name": "Send Main Menu"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://YOUR_SERVER_IP:3010/api/sendText",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "X-Api-Key",
+              "value": "YOUR_WAHA_API_KEY"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"session\": \"default\",\n  \"chatId\": \"91ADMINNUMBER@c.us\",\n  \"text\": {{ JSON.stringify(\"🚨 *New TechExon AI Lead*\\n\\n📌 *Service:* \" + $('Parse AI Result').item.json.service + \"\\n🏢 *Business Type:* \" + $('Parse AI Result').item.json.business_type + \"\\n📞 *Client Phone:* \" + $('Prepare AI Input').item.json.client_phone + \"\\n\\n💬 *Client Message:*\\n\" + $('Prepare AI Input').item.json.client_message + \"\\n\\n📝 *Requirement:*\\n\" + $('Parse AI Result').item.json.requirement + \"\\n\\n⚡ *Urgency:* \" + $('Parse AI Result').item.json.urgency + \"\\n🔥 *Lead Quality:* \" + $('Parse AI Result').item.json.lead_quality + \"\\n\\n🧠 *AI Summary:*\\n\" + $('Parse AI Result').item.json.admin_summary) }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        480,
+        1552
+      ],
+      "id": "c22b9792-95ff-4bbd-ac58-34970d4545d5",
+      "name": "Notify Admin AI Lead"
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "collection": "leads",
+        "fields": "={   \"source\": \"whatsapp\",   \"client_phone\": \"{{ $('Prepare AI Input').item.json.client_phone }}\",   \"client_message\": \"{{ $('Prepare AI Input').item.json.client_message }}\",   \"service\": \"{{ $('Parse AI Result').item.json.service }}\",   \"business_type\": \"{{ $('Parse AI Result').item.json.business_type }}\",   \"requirement\": \"{{ $('Parse AI Result').item.json.requirement }}\",   \"urgency\": \"{{ $('Parse AI Result').item.json.urgency }}\",   \"lead_quality\": \"{{ $('Parse AI Result').item.json.lead_quality }}\",   \"client_reply\": \"{{ $('Parse AI Result').item.json.client_reply }}\",   \"admin_summary\": \"{{ $('Parse AI Result').item.json.admin_summary }}\",   \"status\": \"new\",   \"source_workflow\": \"TechExon WhatsApp AI Lead Agent\",   \"created_at\": \"{{ $now }}\" }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mongoDb",
+      "typeVersion": 1.2,
+      "position": [
+        736,
+        1552
+      ],
+      "id": "0b674bec-4406-4f7e-8e56-d26ac4667559",
+      "name": "Save AI Lead to MongoDB",
+      "credentials": {
+        "mongoDb": {
+          "id": "YOUR_N8N_MONGODB_CREDENTIAL_ID",
+          "name": "MongoDB account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "lib to cn",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Build AI Session Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build CRM Session Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build WhatsApp Bot Session Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Build Cybersecurity Session Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare AI Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lib to cn": {
+      "main": [
+        [
+          {
+            "node": "Prepare Bot Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Session": {
+      "main": [
+        [
+          {
+            "node": "Is Menu Command?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Active Session?": {
+      "main": [
+        [
+          {
+            "node": "Build Lead Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save AI Session": {
+      "main": [
+        [
+          {
+            "node": "Ai Automation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Bot Data": {
+      "main": [
+        [
+          {
+            "node": "Find Session",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build AI Session Data": {
+      "main": [
+        [
+          {
+            "node": "Save AI Session",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Save Website Session",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Website Session": {
+      "main": [
+        [
+          {
+            "node": "Web Dev",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build CRM Session Data": {
+      "main": [
+        [
+          {
+            "node": "save CRM sessions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build WhatsApp Bot Session Data": {
+      "main": [
+        [
+          {
+            "node": "Save Bots Sessions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Cybersecurity Session Data": {
+      "main": [
+        [
+          {
+            "node": "Save CyberSe Sessions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Menu Command?": {
+      "main": [
+        [
+          {
+            "node": "Clear Session",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Is Active Session?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clear Session": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Lead Data": {
+      "main": [
+        [
+          {
+            "node": "Build Cerebras Body",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "save CRM sessions": {
+      "main": [
+        [
+          {
+            "node": "Send CRM Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Bots Sessions": {
+      "main": [
+        [
+          {
+            "node": "For BOts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save CyberSe Sessions": {
+      "main": [
+        [
+          {
+            "node": "Cybersecurity & Audit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Lead": {
+      "main": [
+        [
+          {
+            "node": "Notify Admin",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Session After Lead": {
+      "main": [
+        [
+          {
+            "node": "Lead Confirmation Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Admin": {
+      "main": [
+        [
+          {
+            "node": "Delete Session After Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge AI Lead Data": {
+      "main": [
+        [
+          {
+            "node": "Save Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cerebras Lead Parser": {
+      "main": [
+        [
+          {
+            "node": "Merge AI Lead Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Cerebras Body": {
+      "main": [
+        [
+          {
+            "node": "Cerebras Lead Parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare AI Input": {
+      "main": [
+        [
+          {
+            "node": "Is Greeting or Menu Request?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Lead Brain": {
+      "main": [
+        [
+          {
+            "node": "Parse AI Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse AI Result": {
+      "main": [
+        [
+          {
+            "node": "Notify Admin AI Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Greeting or Menu Request?": {
+      "main": [
+        [
+          {
+            "node": "Send Main Menu",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Lead Brain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Admin AI Lead": {
+      "main": [
+        [
+          {
+            "node": "Save AI Lead to MongoDB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save AI Lead to MongoDB": {
+      "main": [
+        [
+          {
+            "node": "Send AI Reply to Client",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "86c1183a-6582-40fc-acdd-bc476cf097f0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ceb0c2597abffcee14db49735f962617058ceaad519f25a5544c016cdd97ca4c"
+  },
+  "id": "isZVD33LBoH5jgCa",
+  "tags": []
+}
